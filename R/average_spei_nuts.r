@@ -20,7 +20,7 @@ file.path <- "https://soton.eead.csic.es/spei/10/nc/spei01.nc"
 download.file(file.path, tf)
 
 #load and inspect nc file
-nc_data <- nc_open('spei01.nc') # load spei locally
+nc_data <- nc_open('spei01.nc')
 print(nc_data) # show file properties
 lon <- ncvar_get(nc_data, "lon") # store longitude
 lat <- ncvar_get(nc_data, "lat", verbose = F) # store latitude
@@ -89,9 +89,9 @@ spei_n0$indicator_code <- "spei01"
 spei_n0$unit <- "spei"
 colnames(spei_n0)[colnames(spei_n0) == "NUTS_ID"] <- "geo"
 colnames(spei_n0)[colnames(spei_n0) == "date"] <- "time"
-spei_n0$frequency <- "*M*onthly"
-spei_n0$estimate <- spei_n0$value
-spei_n0$db_source <- "average_spei_nuts0"
+spei_n0$frequency <- "M"
+spei_n0$estimate <- "M"
+spei_n0$db_source <- "SPEI_Global_Drought_Monitor"
 
 n0df <- spei_n0[,c("indicator_code", "unit", "geo", "time", "value",
 				 "year", "month", "day", "frequency", "estimate", "db_source")]
@@ -121,9 +121,9 @@ spei_n1$indicator_code <- "spei01"
 spei_n1$unit <- "spei"
 colnames(spei_n1)[colnames(spei_n1) == "NUTS_ID"] <- "geo"
 colnames(spei_n1)[colnames(spei_n1) == "date"] <- "time"
-spei_n1$frequency <- "*M*onthly"
-spei_n1$estimate <- spei_n1$value
-spei_n1$db_source <- "average_spei_nuts1"
+spei_n1$frequency <- "M"
+spei_n1$estimate <- "M"
+spei_n1$db_source <- "SPEI_Global_Drought_Monitor"
 
 n1df <- spei_n1[,c("indicator_code", "unit", "geo", "time", "value",
 				 "year", "month", "day", "frequency", "estimate", "db_source")]
@@ -153,9 +153,9 @@ spei_n2$indicator_code <- "spei01"
 spei_n2$unit <- "spei"
 colnames(spei_n2)[colnames(spei_n2) == "NUTS_ID"] <- "geo"
 colnames(spei_n2)[colnames(spei_n2) == "date"] <- "time"
-spei_n2$frequency <- "*M*onthly"
-spei_n2$estimate <- spei_n2$value
-spei_n2$db_source <- "average_spei_nuts2"
+spei_n2$frequency <- "M"
+spei_n2$estimate <- "M"
+spei_n2$db_source <- "SPEI_Global_Drought_Monitor"
 
 n2df <- spei_n2[,c("indicator_code", "unit", "geo", "time", "value",
 				 "year", "month", "day", "frequency", "estimate", "db_source")]
@@ -185,9 +185,9 @@ spei_n3$indicator_code <- "spei01"
 spei_n3$unit <- "spei"
 colnames(spei_n3)[colnames(spei_n3) == "NUTS_ID"] <- "geo"
 colnames(spei_n3)[colnames(spei_n3) == "date"] <- "time"
-spei_n3$frequency <- "*M*onthly"
-spei_n3$estimate <- spei_n3$value
-spei_n3$db_source <- "average_spei_nuts"
+spei_n3$frequency <- "M"
+spei_n3$estimate <- "M"
+spei_n3$db_source <- "SPEI_Global_Drought_Monitor"
 
 n3df <- spei_n3[,c("indicator_code", "unit", "geo", "time", "value",
 				 "year", "month", "day", "frequency", "estimate", "db_source")]
