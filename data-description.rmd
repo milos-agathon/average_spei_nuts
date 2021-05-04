@@ -1,0 +1,44 @@
+---
+title: "Data Description"
+author: ["Milos Popovic, PhD"]
+date: "05/04/2021"
+output: html_document
+bibliography: ["spei01-data.bib"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Origin
+
+This Standardised Precipitation-Evapotranspiration Index(SPEI) is a multi-scalar measure of drought severity frequently used in multi-disciplinary scholarly research to detect, observe and examine the onset and termination of drought episodes. The SPEI dataset used here originates from [The SPEI Global Drought Monitor](https://spei.csic.es/map/maps.html #months=1#month=2#year=2021), which offers near real-time information about drought conditions worldwide, with a 1 degree spatial resolution and a monthly coverage from January 1950 until March 2021 [See @begueria2010multiscalar, @vicente2010new, @begueria2014standardized]. It is based on the Thortnthwaite equation for estimating potential evapotranspiration or PET [@thornthwaite1948approach]. Using this equation, SPEI is calculated as the the difference between the precipitation (P) and PET for every available month.
+
+While the Thortnthwaite equation is less superior to the FAO-56 Penman-Monteith estimation of potential evapotranspiration when it comes to long-term climatological analysis, there are several advantages of using the estimations from the SPEI Global Drought Monitor. The main advantage is its near real-time character, which is best suited for drought monitoring and early warning purposes. This dataset also relies on less robust methods of PET computation, allowing for a more efficent processing of the dataset. Finally, this dataset is updated during the first days of the following month based on the most reliable and updated sources of climatic data. Average temperature data are obtained from the NOAA NCEP CPC GHCN_CAMS gridded dataset while monthly precipitation sums data are obtained from the 'first guess' Global Precipitation Climatology Centre(GPCC).
+
+## Data Processing
+
+The SPEI data was downloaded from the [source](https://soton.eead.csic.es/spei/10/nc/spei01.nc) in the 1-month scale and imported as stacked raster file with 855 layers in total (each layer is a month-year ranging from January 1950 until March 2021). Missing values were assigned based on the value suggested by the authors of the original dataset. Next, the stacked raster was processed in R using [`exactextractr`](https://github.com/isciences/exactextractr) package for zonal statistics of multiband raster files, which summarizes pixel values over polygonal areas. The NUTS2016 polygons were obtained from [Eurostat](https://gisco-services.ec.europa.eu/distribution/v2/nuts/download/ref-nuts-2016-01m.shp.zip). Using one of the most common methods in zonal statistics, the mean value of every monthly SPEI cell was intersected by the polygon units for each NUTS2016 shapefile separately (NUTS0, NUTS1, NUTS2 and NUTS3) and then weighted by the fraction of the cell that is covered. The resulting values range from negative (higher drought levels) to positive (lower drought levels).
+
+## List of Variables
+
+```{r var-list, echo=FALSE}
+var_list <- data.frame(
+  variable = c("indicator_code", "unit", "geo", "time", "value",
+				 "year", "month", "day", "frequency", "estimate", "db_source"),
+  class = c("string", "string", "string", "date", "integer",
+				 "integer", "integer", "integer", "string", "string", "string"),
+  description = c("Unique code for the indicator", "Measurement unit", "NUTS2016 geographic code of observation",
+                "Time of observation formatted as date or first day of the year followed by year for annual observations",
+                "Value of observation in numeric form",
+				"Year of observation", "Month of observation", "Day of observation", "Frequency of observation, currently *A*nnual, *Q*uarterly, *M*onthly, *D*aily, or unknown",
+                "Annotated *missing* for missing values",
+                "Database source code labeled as unique name with snake_case")
+)
+
+var_list %>%
+knitr::kable()
+
+```
+
+## References
