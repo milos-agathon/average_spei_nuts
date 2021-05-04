@@ -1,6 +1,7 @@
 # COMPUTE AVERAGE MONTHLY SPEI VALUES FOR EVERY NUTS2016 LEVEL
+# FROM The SPEI Global Drought Monitor
 # Milos Popovic
-# 05/03/2021
+# 05/04/2021
 
 library(ncdf4, quietly=T) # package for netcdf manipulation
 library(raster, quietly=T) # package for raster manipulation
@@ -13,18 +14,24 @@ library(reshape2, quietly=T) # package for data manipulation
 # set seed for reproducibility
 set.seed(05032021)
 
-#inspect nc file
+# download nc file
+tf <- tempfile()
+file.path <- "https://soton.eead.csic.es/spei/10/nc/spei01.nc"
+download.file(file.path, tf)
+
+#load and inspect nc file
 nc_data <- nc_open('spei01.nc') # load spei locally
 print(nc_data) # show file properties
-
 lon <- ncvar_get(nc_data, "lon") # store longitude
 lat <- ncvar_get(nc_data, "lat", verbose = F) # store latitude
 t <- ncvar_get(nc_data, "time") # store time-series
-spei.array <- ncvar_get(nc_data, "spei") # turn into array
 fillvalue <- ncatt_get(nc_data, "spei", "_FillValue") # get NA values for this file
+spei.array <- ncvar_get(nc_data, "spei") # turn into array
+nc_close(nc_data)
 
 #use stack from raster
-n <- stack('spei01.nc') # load spei file as stacked raster 
+n1 <- stack('spei01.nc') # load spei file as stacked raster 
+crs(n1) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
 n[n == fillvalue$value] <- NA # fill NAs
 
 #download all NUTS2016 shapefiles
