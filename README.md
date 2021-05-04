@@ -1,2 +1,2 @@
 # average_spei_nuts
-Average monthly SPEI over NUTS2016 polygons
+Average monthly SPEI Global Drought Monitor over NUTS2016 polygons
