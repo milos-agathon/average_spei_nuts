@@ -20,6 +20,24 @@ While the Thortnthwaite equation is less superior to the FAO-56 Penman-Monteith 
 
 The SPEI data was downloaded from the [source](https://soton.eead.csic.es/spei/10/nc/spei01.nc) in the 1-month scale and imported as stacked raster file with 855 layers in total (each layer is a month-year ranging from January 1950 until March 2021). Missing values were assigned based on the value suggested by the authors of the original dataset. Next, the stacked raster was processed in R using [`exactextractr`](https://github.com/isciences/exactextractr) package for zonal statistics of multiband raster files, which summarizes pixel values over polygonal areas. The NUTS2016 polygons were obtained from [Eurostat](https://gisco-services.ec.europa.eu/distribution/v2/nuts/download/ref-nuts-2016-01m.shp.zip). Using one of the most common methods in zonal statistics, the mean value of every monthly SPEI cell was intersected by the polygon units for each NUTS2016 shapefile separately (NUTS0, NUTS1, NUTS2 and NUTS3) and then weighted by the fraction of the cell that is covered. The resulting values range from negative (higher drought levels) to positive (lower drought levels).
 
+library(dplyr)
+var_list <- data.frame(
+  variable = c("indicator_code", "unit", "geo", "time", "value",
+				 "year", "month", "day", "frequency", "estimate", "db_source"),
+  class = c("string", "string", "string", "date", "integer",
+				 "integer", "integer", "integer", "string", "string", "string"),
+  description = c("Unique code for the indicator", "Measurement unit", "NUTS2016 geographic code of observation",
+                "Time of observation formatted as date or first day of the year followed by year for annual observations",
+                "Value of observation in numeric form",
+				"Year of observation", "Month of observation", "Day of observation", "Frequency of observation, currently *A*nnual, *Q*uarterly, *M*onthly, *D*aily, or unknown",
+                "Annotated *missing* for missing values",
+                "Database source code labeled as unique name with snake_case")
+)
+
+
+var_list %>%
+knitr::kable()
+
 
 
 ## References
