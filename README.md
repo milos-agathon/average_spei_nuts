@@ -3,7 +3,7 @@ Average monthly SPEI Global Drought Monitor over NUTS2016 polygons
 
 ## List of Variables
 
-```{r var-list, echo=FALSE}
+```{r var-list, echo=T}
 
 var_list = data.frame(indicator_code =c (unit geo", "time", "value",
 				 "year", "month", "day", "frequency", "estimate", "db_source"),
