@@ -36,9 +36,15 @@ var_list <- data.frame(
                 "Database source code labeled as unique name with snake_case")
 )
 
+
 var_list %>%
 knitr::kable()
 
 ```
+## List of datasets included
+"nuts0_spei01_average.csv" = average weighted SPEI values on the NUTS0 level
+"nuts1_spei01_average.csv" = average weighted SPEI values on the NUTS1 level
+"nuts2_spei01_average.csv" = average weighted SPEI values on the NUTS2 level
+"nuts3_spei01_average.csv" = average weighted SPEI values on the NUTS3 level
 
 ## References
